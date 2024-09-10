@@ -1,0 +1,471 @@
+<!-- Ramish Munawar -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Weather</title>
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+    box-sizing:border-box;
+}
+.container{
+   width: 100%;
+   height: 100vh;
+   /* background-color: #87CEEB;  */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+.weather-container{
+    color: white;
+}
+.temps{
+    font-size: 6rem;
+}
+.time_location{
+    font-size: 2rem;
+}
+.condition{
+    margin: 0.5rem;
+    margin-left: 0.2rem;
+}
+
+.search_area{
+background:transparent;
+border: none;
+outline: none;
+color: white;
+border-bottom:2px solid white ;
+}
+.search_area::placeholder {
+    color: white; /* Placeholder text color */
+  }
+         
+.btn-grad {
+    background-image: linear-gradient(to right, #314755 0%, #26a0da  51%, #314755  100%);
+    margin: 10px;
+    padding: 10px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    /* display: block; */
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+  html,
+  body {
+    background-color: #85b9dd;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  * {
+    position: relative;
+  }
+  
+  .frame {
+    width: 500px;
+    height: auto;
+    margin: 15% auto 0;
+    position: absolute;
+    width: 100%;
+  }
+  
+  svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /**
+   * Paper Plane
+   */
+  /*Paper Plane: Container*/
+  .plane-container {
+    width: 200px;
+    margin: 0px auto;
+    z-index: 3;
+  }
+   /*Paper Plane: Image*/
+  .plane {
+    width: 100%;
+    height: 60px;
+  }
+  
+  /*Paper Plane: Animation*/
+  .plane-container {
+    -webkit-animation: paper-plane-scoping 2s alternate infinite;
+    -moz-animation: paper-plane-scoping 2s alternate infinite;
+    animation: paper-plane-scoping 2s alternate infinite;
+  
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+  
+  @-webkit-keyframes paper-plane-scoping {
+    0% {
+      -webkit-transform: translateY(0px);
+      -moz-transform: translateY(0px);
+      transform: translateY(0px);
+    }
+    100% {
+      -webkit-transform: translateY(100px);
+      -moz-transform: translateY(100px);
+      transform: translateY(100px);
+    }
+  }
+  
+  .plane {
+    -webkit-animation-timing-function: ease-in-out;
+    -moz-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  
+    -webkit-animation: paper-plane-soaring 4s forwards infinite;
+    -moz-animation: paper-plane-soaring 4s forwards infinite;
+    animation: paper-plane-soaring 4s forwards infinite;
+  }
+  @-webkit-keyframes paper-plane-soaring {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    40% {
+      -webkit-transform: rotate(15deg);
+      -moz-transform: rotate(15deg);
+      transform: rotate(15deg);
+    }
+    50% {
+      -webkit-transform: rotate(15deg);
+      -moz-transform: rotate(15deg);
+      transform: rotate(15deg);
+    }
+    60% {
+      -webkit-transform: rotate(-10deg);
+      -moz-transform: rotate(-10deg);
+      transform: rotate(-10deg);
+    }
+    70% {
+      -webkit-transform: rotate(-10deg);
+      -moz-transform: rotate(-10deg);
+      transform: rotate(-10deg);
+    }
+    100% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  }
+  
+  /**
+   * Clouds
+   */
+  .clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+  }
+  
+  .cloud {
+    position: absolute;
+    top: 20%;
+    width: 300px;
+    right: 0;
+    opacity: 1;
+  }
+  
+  .cloud.front {
+    z-index: 9;
+  }
+  
+  .cloud.distant {
+    z-index: 1;
+  }
+  
+  .cloud.background {
+    z-index: 1;
+  }
+  
+  /*Cloud Sizing*/
+  .cloud.smaller {
+    margin-right: 400px;
+    width: 100px;
+    margin-top: 50px;
+  }
+  
+  .cloud.small {
+    margin-right: 200px;
+    width: 150px;
+  }
+  
+  .cloud.big {
+    width: 500px;
+    margin-top: 50px;
+    margin-right: 150px;
+  }
+  
+  .cloud.massive {
+    width: 600px;
+    margin-top: 20px;
+    margin-right: 0px;
+  }
+  
+  
+  /*Cloud: Animation*/
+  .cloud {
+    -webkit-animation-name: cloud-movement;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-direction: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 8s;
+  
+    -moz-animation-name: cloud-movement;
+    -moz-animation-timing-function: linear;
+    -moz-animation-direction: forwards;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 8s;
+  
+    animation-name: cloud-movement;
+    animation-timing-function: linear;
+    animation-direction: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+  }
+  
+  .slow {
+    -webkit-animation-duration: 9.2s;
+    -moz-animation-duration: 9.2s;
+    animation-duration: 9.2s;
+  }
+  
+  .slower {
+    -webkit-animation-duration: 11.2s;
+    -moz-animation-duration: 11.2s;
+    animation-duration: 11.2s;
+  }
+  
+  .slowest {
+    -webkit-animation-duration: 13.5s;
+    -moz-animation-duration: 13.5s;
+    animation-duration: 13.5s;
+  }
+  
+  .super-slow {
+    -webkit-animation-duration: 20.5s;
+    -moz-animation-duration: 20.5s;
+    animation-duration: 20.5s;
+  }
+  
+  @-webkit-keyframes cloud-movement {
+    0% {
+      opacity: 0.1;
+      -webkit-transform: translateX(300px);
+      -moz-transform: translateX(300px);
+      transform: translateX(300px);
+    }
+    10% {
+  
+      opacity: 0.7;
+    }
+    90% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+      -webkit-transform: translateX(-1000px);
+      -moz-transform: translateX(-1000px);
+      transform: translateX(-1000px);
+    }
+  }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="plane-container">
+        <a href="http://customer.io/" target="_blank">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        width="1131.53px" height="379.304px" viewBox="0 0 1131.53 379.304" enable-background="new 0 0 1131.53 379.304"
+        xml:space="preserve" class="plane">
+        <polygon fill="#D8D8D8" points="72.008,0 274.113,140.173 274.113,301.804 390.796,221.102 601.682,367.302 1131.53,0.223  "/>
+        <polygon fill="#C4C4C3" points="1131.53,0.223 274.113,140.173 274.113,301.804 390.796,221.102   "/>
+        </svg></a>
+        
+        </div>
+        </div>
+        <div class="clouds">
+        
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="762px"
+        height="331px" viewBox="0 0 762 331" enable-background="new 0 0 762 331" xml:space="preserve" class="cloud big front slowest">
+        <path fill="#FFFFFF" d="M715.394,228h-16.595c0.79-5.219,1.201-10.562,1.201-16c0-58.542-47.458-106-106-106
+        c-8.198,0-16.178,0.932-23.841,2.693C548.279,45.434,488.199,0,417.5,0c-84.827,0-154.374,65.401-160.98,148.529
+        C245.15,143.684,232.639,141,219.5,141c-49.667,0-90.381,38.315-94.204,87H46.607C20.866,228,0,251.058,0,279.5
+        S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715.394,228z"/>
+        </svg>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="762px"
+        height="331px" viewBox="0 0 762 331" enable-background="new 0 0 762 331" xml:space="preserve" class="cloud distant smaller">
+        <path fill="#FFFFFF" d="M715.394,228h-16.595c0.79-5.219,1.201-10.562,1.201-16c0-58.542-47.458-106-106-106
+        c-8.198,0-16.178,0.932-23.841,2.693C548.279,45.434,488.199,0,417.5,0c-84.827,0-154.374,65.401-160.98,148.529
+        C245.15,143.684,232.639,141,219.5,141c-49.667,0-90.381,38.315-94.204,87H46.607C20.866,228,0,251.058,0,279.5
+        S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715.394,228z"/>
+        </svg>
+        
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="762px"
+        height="331px" viewBox="0 0 762 331" enable-background="new 0 0 762 331" xml:space="preserve" class="cloud small slow">
+        <path fill="#FFFFFF" d="M715.394,228h-16.595c0.79-5.219,1.201-10.562,1.201-16c0-58.542-47.458-106-106-106
+        c-8.198,0-16.178,0.932-23.841,2.693C548.279,45.434,488.199,0,417.5,0c-84.827,0-154.374,65.401-160.98,148.529
+        C245.15,143.684,232.639,141,219.5,141c-49.667,0-90.381,38.315-94.204,87H46.607C20.866,228,0,251.058,0,279.5
+        S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715.394,228z"/>
+        </svg>
+        
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="762px"
+        height="331px" viewBox="0 0 762 331" enable-background="new 0 0 762 331" xml:space="preserve" class="cloud distant super-slow massive">
+        <path fill="#FFFFFF" d="M715.394,228h-16.595c0.79-5.219,1.201-10.562,1.201-16c0-58.542-47.458-106-106-106
+        c-8.198,0-16.178,0.932-23.841,2.693C548.279,45.434,488.199,0,417.5,0c-84.827,0-154.374,65.401-160.98,148.529
+        C245.15,143.684,232.639,141,219.5,141c-49.667,0-90.381,38.315-94.204,87H46.607C20.866,228,0,251.058,0,279.5
+        S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715.394,228z"/>
+        </svg>
+        
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="762px"
+        height="331px" viewBox="0 0 762 331" enable-background="new 0 0 762 331" xml:space="preserve" class="cloud slower">
+        <path fill="#FFFFFF" d="M715.394,228h-16.595c0.79-5.219,1.201-10.562,1.201-16c0-58.542-47.458-106-106-106
+        c-8.198,0-16.178,0.932-23.841,2.693C548.279,45.434,488.199,0,417.5,0c-84.827,0-154.374,65.401-160.98,148.529
+        C245.15,143.684,232.639,141,219.5,141c-49.667,0-90.381,38.315-94.204,87H46.607C20.866,228,0,251.058,0,279.5
+        S20.866,331,46.607,331h668.787C741.133,331,762,307.942,762,279.5S741.133,228,715.394,228z"/>
+        </svg>
+        
+        </div>
+        
+    <div class="main">
+
+   
+    <div class="container">
+        <div class="weather-container">
+            <div class="temps">
+                <p>48</p>
+            </div>
+            <div class="time_location">
+                <p>Lahore</p>
+                <span>1:55 pm Tuesday, 10 September 2024</span>
+            </div>
+            <div class="condition">
+                <p></p>
+                <!-- <p>p</p> -->
+            </div>
+        </div>
+        <nav>
+            <form action="">
+                <input type="text" placeholder="Search for location" class="search_area" name="" id="" style="width:237px;">
+                <button type="submit" class="search-button btn-grad">Search</button>
+            </form>
+        </nav>
+    </div>
+   
+</div>
+<script >
+    //http://api.weatherapi.com/v1/current.json?key=62be5eb6f78c436184283713241009&q=pakistan&aqi=no
+
+let temperatureField = document.querySelector(".temps");
+let locationField = document.querySelector(".time_location p");
+let timeDateLocation = document.querySelector(".time_location span");
+let ConditionField = document.querySelector(".condition p");
+let searchField = document.querySelector(".search_area");
+let searchButton = document.querySelector(".search-button");
+let form = document.querySelector("form");
+
+form.addEventListener("submit", LocationForSearch);
+
+let target = "lahore";
+const fetchData = async (targetLocation) => {
+  let url = `http://api.weatherapi.com/v1/current.json?key=62be5eb6f78c436184283713241009&q=${targetLocation}&aqi=no`;
+
+  const result = await fetch(url);
+
+  const data = await result.json();
+  console.log(data);
+
+  let temper = data.current.temp_c;
+  let locationName = data.location.name;
+  let time = data.location.localtime;
+  let condition = data.current.condition.text;
+
+  console.log(locationName, time, temper, condition);
+  updateDetails(temper, locationName, time, condition);
+};
+
+function updateDetails(temper, locationName, time, condition) {
+  let splitDate = time.split(" ")[0];
+  let splitTime = time.split(" ")[1];
+
+  let currentDay =getDayName( new Date(splitDate).getDay());
+
+  temperatureField.innerText = temper;
+  locationField.innerText = locationName;
+  timeDateLocation.innerText = `${splitDate} ${currentDay} ${splitTime}`;
+  ConditionField.innerText = condition;
+}
+
+function LocationForSearch(e) {
+  e.preventDefault();
+
+  target = searchField.value;
+
+  fetchData(target);
+}
+fetchData(target);
+
+function getDayName(number) {
+  switch (number) {
+    case 0:
+      return "sunday";
+    case 1:
+      return "Monday";
+    case 2:
+      return "Tuesday";
+    case 3:
+      return "Wednesday";
+    case 4:
+      return "Thursday";
+    case 5:
+      return "Friday";
+      case 6:
+        return "Saturday ";
+  }
+}
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Function to toggle the 'day' class on the body
+//     function toggleDayClass() {
+//         document.body.classList.toggle('day');
+//     }
+
+//     // Call the function every second (1000 milliseconds)
+//     setInterval(toggleDayClass, 4000);
+// });
+
+</script>
+</body>
+</html>
